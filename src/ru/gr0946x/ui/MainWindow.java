@@ -1,7 +1,6 @@
 package ru.gr0946x.ui;
 
 import ru.gr0946x.Converter;
-import ru.gr0946x.ui.fractals.Fractal;
 import ru.gr0946x.ui.fractals.Mandelbrot;
 import ru.gr0946x.ui.painting.FractalPainter;
 import ru.gr0946x.ui.painting.Painter;
@@ -14,7 +13,7 @@ import static java.lang.Math.*;
 public class MainWindow extends JFrame {
     private final SelectablePanel mainPanel;
     private final Painter painter;
-    private final Fractal mandelbrot;
+    private final Mandelbrot mandelbrot;
     private final Converter conv;
 
     public MainWindow() {
@@ -41,6 +40,8 @@ public class MainWindow extends JFrame {
             var yMax = conv.yScr2Crt(r.y);
             conv.setXShape(xMin, xMax);
             conv.setYShape(yMin, yMax);
+            double zoomFactor = 3.0 / (xMax - xMin);
+            mandelbrot.setMaxIterations(Math.max(100, (int)(100 * (1 + Math.log10(zoomFactor)))));
             mainPanel.repaint();
         });
 

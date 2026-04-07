@@ -6,9 +6,18 @@ import static java.lang.Math.sqrt;
 
 public class Mandelbrot implements Fractal {
 
-    private final int maxIterations = 100;
+    private int maxIterations = 100;
     private final double R2 = 4;
+<<<<<<< menu
     public double getR() {
+=======
+
+    public void setMaxIterations(int n) {
+        maxIterations = n;
+    }
+
+    public double getR(){
+>>>>>>> master
         return sqrt(R2);
     }
 
