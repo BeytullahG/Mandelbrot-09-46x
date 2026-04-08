@@ -1,6 +1,8 @@
 package ru.gr0946x.ui;
 
 import ru.gr0946x.Converter;
+import ru.gr0946x.ui.fractals.ColorFunction;
+import ru.gr0946x.ui.fractals.Fractal;
 import ru.gr0946x.ui.fractals.Mandelbrot;
 import ru.gr0946x.ui.io.Menu;
 import ru.gr0946x.ui.painting.FractalPainter;
@@ -68,6 +70,18 @@ public class MainWindow extends JFrame {
                 .addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
                 .addGap(8)
         );
+    }
+    public void setCurrentFractal(Fractal fractal) {
+        if (painter instanceof FractalPainter fp) {
+            fp.setFractal(fractal);
+        }
+        mainPanel.repaint();
+    }
+    public void setCurrentColorFunction(ColorFunction colorFunction) {
+        if (painter instanceof FractalPainter fp) {
+            fp.setColorFunction(colorFunction);
+        }
+        mainPanel.repaint();
     }
 }
 
