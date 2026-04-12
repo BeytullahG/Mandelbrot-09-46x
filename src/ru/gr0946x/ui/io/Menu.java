@@ -34,11 +34,14 @@ public class Menu {
 
         JMenuItem saveAsItem = new JMenuItem("Сохранить как...");
         saveAsItem.addActionListener(e -> mainWindow.saveFractal());
+        saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control S"));
 
         JMenuItem openItem = new JMenuItem("Открыть...");
         openItem.addActionListener(e -> mainWindow.openFile());
+        openItem.setAccelerator(KeyStroke.getKeyStroke("control O"));
 
         JMenuItem createAnimationItem = new JMenuItem("Создать анимацию...");
+        createAnimationItem.setAccelerator(KeyStroke.getKeyStroke("control N"));
 
         fileMenu.add(saveAsItem);
         fileMenu.addSeparator();
@@ -48,14 +51,14 @@ public class Menu {
 
         return fileMenu;
     }
+
     private JMenu createEditMenu() {
         JMenu editMenu = new JMenu("Правка");
         editMenu.setMnemonic('E');
 
         JMenuItem undoItem = new JMenuItem("Отменить");
-
+        undoItem.setAccelerator(KeyStroke.getKeyStroke("control Z"));
         editMenu.add(undoItem);
-
         return editMenu;
     }
 
@@ -80,6 +83,7 @@ public class Menu {
         JCheckBoxMenuItem adaptiveIterationsItem = new JCheckBoxMenuItem("Адаптивное число итераций");
         adaptiveIterationsItem.addActionListener(e -> mainWindow.setAdaptiveIterationsEnabled(adaptiveIterationsItem.isSelected()));
         adaptiveIterationsItem.setSelected(true);
+        adaptiveIterationsItem.setAccelerator(KeyStroke.getKeyStroke("control I"));
 
         functionGroup.add(fractalFunc1Item);
         functionGroup.add(fractalFunc2Item);

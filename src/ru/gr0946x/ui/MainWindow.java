@@ -10,9 +10,7 @@ import ru.gr0946x.ui.painting.FractalPainter;
 import ru.gr0946x.ui.painting.Painter;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.io.File;
 
 import static java.lang.Math.*;
 
@@ -92,51 +90,11 @@ public class MainWindow extends JFrame {
         fracSerializer.saveWithFormatChoice(this, conv, mandelbrot, mainPanel);
     }
 
-    public void saveAsPNG() {
-        imageSerializer.saveAsPNG(this, conv, mainPanel);
-    }
-
-    public void saveAsJPEG() {
-        imageSerializer.saveAsJPEG(this, conv, mainPanel);
-    }
-
-    public void openImage() {
-        imageSerializer.openImage(this, mainPanel);
+    public void openFile() {
+        fracSerializer.openWithFormatChoice(this, conv, mandelbrot, mainPanel, imageSerializer);
     }
 
     public void setAdaptiveIterationsEnabled(boolean enabled) {
         this.adaptiveIterationsEnabled = enabled;
-    }
-
-    public void openFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Открыть файл");
-
-        FileNameExtensionFilter fracFilter = new FileNameExtensionFilter("Файлы фракталов (*.frac)", "frac");
-        FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG изображения (*.png)", "png");
-        FileNameExtensionFilter jpgFilter = new FileNameExtensionFilter("JPEG изображения (*.jpg)", "jpg");
-
-        fileChooser.addChoosableFileFilter(fracFilter);
-        fileChooser.addChoosableFileFilter(pngFilter);
-        fileChooser.addChoosableFileFilter(jpgFilter);
-        fileChooser.setAcceptAllFileFilterUsed(true);
-        fileChooser.setFileFilter(fileChooser.getAcceptAllFileFilter());
-
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            String extension = "";
-            String name = file.getName().toLowerCase();
-            if (name.endsWith(".frac")) extension = "frac";
-            else if (name.endsWith(".png")) extension = "png";
-            else if (name.endsWith(".jpg") || name.endsWith(".jpeg")) extension = "jpg";
-
-            if (extension.equals("frac")) {
-                fileManager.open(fracSerializer, this::repaint);
-            } else if (extension.equals("png") || extension.equals("jpg")) {
-                imageSerializer.openImage(this, mainPanel);
-            } else {
-                JOptionPane.showMessageDialog(this, "Неподдерживаемый формат файла", "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
-        }
     }
 }

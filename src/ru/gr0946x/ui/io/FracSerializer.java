@@ -103,7 +103,42 @@ public class FracSerializer implements FractalSerializer {
             }
         }
     }
+    public void openWithFormatChoice(Component parent, Converter conv, Mandelbrot mandelbrot, JPanel paintPanel, ImageSerializer imageSerializer) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Открыть файл");
 
+        FileNameExtensionFilter fracFilter = new FileNameExtensionFilter("Файлы фракталов (*.frac)", "frac");
+        FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG изображения (*.png)", "png");
+        FileNameExtensionFilter jpgFilter = new FileNameExtensionFilter("JPEG изображения (*.jpg)", "jpg");
+
+        fileChooser.addChoosableFileFilter(fracFilter);
+        fileChooser.addChoosableFileFilter(pngFilter);
+        fileChooser.addChoosableFileFilter(jpgFilter);
+        fileChooser.setAcceptAllFileFilterUsed(true);
+        fileChooser.setFileFilter(fileChooser.getAcceptAllFileFilter());
+
+        if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            String name = file.getName().toLowerCase();
+
+            if (name.endsWith(".frac")) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                    FractalState state = (FractalState) ois.readObject();
+                    conv.setXShape(state.xMin(), state.xMax());
+                    conv.setYShape(state.yMin(), state.yMax());
+                    mandelbrot.setMaxIterations(state.maxIterations());
+                    ((JFrame) parent).repaint();
+                    JOptionPane.showMessageDialog(parent, "Фрактал загружен!", "Успех", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(parent, "Ошибка: " + ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg")) {
+                imageSerializer.openImage(parent, paintPanel);
+            } else {
+                JOptionPane.showMessageDialog(parent, "Неподдерживаемый формат", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     private void saveImage(Component parent, Converter conv, JPanel paintPanel, File file, String format) {
         String path = file.getAbsolutePath();
         if (!path.toLowerCase().endsWith("." + format)) {
