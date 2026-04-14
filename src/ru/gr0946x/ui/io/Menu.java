@@ -1,21 +1,29 @@
 package ru.gr0946x.ui.io;
 
 import ru.gr0946x.Converter;
+import ru.gr0946x.ui.FunctionAndColorShemsLists;
 import ru.gr0946x.ui.MainWindow;
 import ru.gr0946x.ui.fractals.Mandelbrot;
+import ru.smak.math.Complex;
 
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Menu {
     private final MainWindow mainWindow;
     private final FractalFileManager fileManager;
+
+    private final FractalSerializer fracSerializer = new FracSerializer();
+    private final FunctionAndColorShemsLists lists;
     private final FractalSerializer fracSerializer;
 
-    public Menu(MainWindow mainWindow, FractalSerializer fracSerializer, FractalFileManager fileManager, ImageSerializer imageSerializer) {
+    public Menu(MainWindow mainWindow, FractalSerializer fracSerializer, FractalFileManager fileManager, ImageSerializer imageSerializer,Converter conv, Mandelbrot mandelbrot) {
         this.mainWindow = mainWindow;
         this.fracSerializer = fracSerializer;
         this.fileManager = fileManager;
+        this.lists = new FunctionAndColorShemsLists();
+
         createMenu();
     }
 
@@ -122,8 +130,40 @@ public class Menu {
         viewMenu.add(setFractalFuncMenu);
         viewMenu.add(setColorSchemeMenu);
         viewMenu.addSeparator();
+        viewMenu.add(setFractalFunc);
+        viewMenu.add(setColorScheme);
+
+        setFractalFunc.add(fractalFuncA);
+        setFractalFunc.add(fractalFuncB);
+        setFractalFunc.add(fractalFuncC);
+
+        setColorScheme.add(colorSchemeA);
+        setColorScheme.add(colorSchemeB);
+        setColorScheme.add(colorSchemeC);
+        // Функции фракталов
+        fractalFuncA.addActionListener(_ ->
+                mainWindow.setCurrentFractal(lists.getFractalFunctions().get(0)));
+
+        fractalFuncB.addActionListener(_ ->
+                mainWindow.setCurrentFractal(lists.getFractalFunctions().get(1)));
+
+        fractalFuncC.addActionListener(_ ->
+                mainWindow.setCurrentFractal(lists.getFractalFunctions().get(2)));
+
+        // Цветовые схемы
+        colorSchemeA.addActionListener(_ ->
+                mainWindow.setCurrentColorFunction(lists.getColorSchemes().get(0)));
+
+        colorSchemeB.addActionListener(_ ->
+                mainWindow.setCurrentColorFunction(lists.getColorSchemes().get(1)));
+
+        colorSchemeC.addActionListener(_ ->
+                mainWindow.setCurrentColorFunction(lists.getColorSchemes().get(2)));
+
         viewMenu.add(adaptiveIterationsItem);
 
         return viewMenu;
+
     }
+
 }
