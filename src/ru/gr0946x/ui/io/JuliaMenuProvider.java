@@ -11,8 +11,8 @@ public class JuliaMenuProvider implements MenuProvider {
     private final FractalMenuCallback fractalMenuCallback;
     private final FunctionAndColorSchemesLists lists;
 
-    public JuliaMenuProvider(JuliaSetWindow juliaWindow) {
-        this.fractalMenuCallback = juliaWindow;
+    public JuliaMenuProvider(FractalMenuCallback fractalMenuCallback) {
+        this.fractalMenuCallback = fractalMenuCallback;
         this.lists = new FunctionAndColorSchemesLists();
     }
 
